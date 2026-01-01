@@ -5,3 +5,11 @@
 /coveralls-upload.json
 /phpunit.xml
 /vendor/
+
+# IDE
+/.idea/
+*.iml
+
+# Composer
+/composer.phar
+/package.xml

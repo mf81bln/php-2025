@@ -1,44 +1,83 @@
 <?php $this->layout('layout::default') ?>
 
-<h1>Neuen Kontakt anlegen</h1>
-
 <div class="row">
-    <div class="col-md-8 col-lg-6">
-        <?php if ($this->error): ?>
-            <div class="alert alert-danger"><?= $this->escapeHtml($this->error) ?></div>
-        <?php endif; ?>
-
-        <form method="post" action="/contact/create">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name *</label>
-                <input type="text" class="form-control" id="name" name="name"
-                       value="<?= $this->escapeHtml($this->data['name']) ?>" required>
+    <div class="col-lg-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Neuen Kontakt anlegen
+                </h3>
             </div>
+            <form method="post" action="/contact/create">
+                <div class="card-body">
+                    <?php if ($this->error): ?>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <?= $this->escapeHtml($this->error) ?>
+                        </div>
+                    <?php endif; ?>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">E-Mail</label>
-                <input type="email" class="form-control" id="email" name="email"
-                       value="<?= $this->escapeHtml($this->data['email']) ?>"
-                       placeholder="email@beispiel.de">
-            </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user text-muted me-1"></i> Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               value="<?= $this->escapeHtml($this->data['name']) ?>"
+                               placeholder="Vollständiger Name" required>
+                    </div>
 
-            <div class="mb-3">
-                <label for="phone" class="form-label">Telefon</label>
-                <input type="tel" class="form-control" id="phone" name="phone"
-                       value="<?= $this->escapeHtml($this->data['phone']) ?>"
-                       placeholder="+49 123 456789">
-            </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope text-muted me-1"></i> E-Mail
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email"
+                               value="<?= $this->escapeHtml($this->data['email']) ?>"
+                               placeholder="email@beispiel.de">
+                    </div>
 
-            <div class="mb-3">
-                <label for="notes" class="form-label">Notizen</label>
-                <textarea class="form-control" id="notes" name="notes" rows="4"
-                          placeholder="Zusätzliche Informationen..."><?= $this->escapeHtml($this->data['notes']) ?></textarea>
-            </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">
+                            <i class="fas fa-phone text-muted me-1"></i> Telefon
+                        </label>
+                        <input type="tel" class="form-control" id="phone" name="phone"
+                               value="<?= $this->escapeHtml($this->data['phone']) ?>"
+                               placeholder="+49 123 456789">
+                    </div>
 
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Speichern</button>
-                <a href="/contact" class="btn btn-secondary">Abbrechen</a>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">
+                            <i class="fas fa-sticky-note text-muted me-1"></i> Notizen
+                        </label>
+                        <textarea class="form-control" id="notes" name="notes" rows="4"
+                                  placeholder="Zusätzliche Informationen..."><?= $this->escapeHtml($this->data['notes']) ?></textarea>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Speichern
+                    </button>
+                    <a href="/contact" class="btn btn-secondary">
+                        <i class="fas fa-times me-1"></i> Abbrechen
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Hinweise
+                </h3>
             </div>
-        </form>
+            <div class="card-body">
+                <p><i class="fas fa-asterisk text-danger me-2"></i> Pflichtfelder sind mit * markiert.</p>
+                <p><i class="fas fa-envelope text-primary me-2"></i> E-Mail-Adressen werden validiert.</p>
+                <p><i class="fas fa-phone text-success me-2"></i> Telefonnummern können international formatiert werden.</p>
+            </div>
+        </div>
     </div>
 </div>
