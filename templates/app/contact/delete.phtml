@@ -1,0 +1,29 @@
+<?php $this->layout('layout::default') ?>
+
+<h1>Kontakt löschen</h1>
+
+<div class="alert alert-warning">
+    <h4 class="alert-heading">Sind Sie sicher?</h4>
+    <p>Sie sind dabei, den folgenden Kontakt endgültig zu löschen:</p>
+    <hr>
+    <p class="mb-0">
+        <strong><?= $this->escapeHtml($this->contact->name) ?></strong>
+        <?php if ($this->contact->email): ?>
+            <br>E-Mail: <?= $this->escapeHtml($this->contact->email) ?>
+        <?php endif; ?>
+        <?php if ($this->contact->phone): ?>
+            <br>Telefon: <?= $this->escapeHtml($this->contact->phone) ?>
+        <?php endif; ?>
+    </p>
+</div>
+
+<form method="post" action="/contact/delete/<?= $this->id ?>">
+    <div class="mb-3">
+        <button type="submit" name="confirm" value="yes" class="btn btn-danger">
+            Ja, löschen
+        </button>
+        <a href="/contact" class="btn btn-secondary">
+            Nein, abbrechen
+        </a>
+    </div>
+</form>
