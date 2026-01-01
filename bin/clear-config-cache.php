@@ -2,35 +2,30 @@
 
 declare(strict_types=1);
 
-use Laminas\ModuleManager\Listener\ListenerOptions;
-
 chdir(__DIR__ . '/../');
 
 require 'vendor/autoload.php';
 
-$config = include 'config/application.config.php';
+$config = include 'config/config.php';
 
-if (! isset($config['module_listener_options'])) {
-    echo "No module listener options found. Can not determine config cache location." . PHP_EOL;
+if (! isset($config['config_cache_path'])) {
+    echo "No configuration cache path found" . PHP_EOL;
     exit(0);
 }
 
-$options = new ListenerOptions($config['module_listener_options']);
-$configCacheFile = $options->getConfigCacheFile();
-
-if (! file_exists($configCacheFile)) {
+if (! file_exists($config['config_cache_path'])) {
     printf(
         "Configured config cache file '%s' not found%s",
-        $configCacheFile,
+        $config['config_cache_path'],
         PHP_EOL
     );
     exit(0);
 }
 
-if (false === unlink($configCacheFile)) {
+if (false === unlink($config['config_cache_path'])) {
     printf(
         "Error removing config cache file '%s'%s",
-        $configCacheFile,
+        $config['config_cache_path'],
         PHP_EOL
     );
     exit(1);
@@ -38,7 +33,7 @@ if (false === unlink($configCacheFile)) {
 
 printf(
     "Removed configured config cache file '%s'%s",
-    $configCacheFile,
+    $config['config_cache_path'],
     PHP_EOL
 );
 exit(0);

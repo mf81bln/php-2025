@@ -1,14 +1,23 @@
-# Laminas Kontakt-Datenbank
+# Mezzio Kontakt-Datenbank
 
-Eine Kontakt-Datenbank-Anwendung basierend auf dem Laminas MVC Framework mit PostgreSQL.
+Eine moderne Kontakt-Datenbank-Anwendung basierend auf **Mezzio** (PSR-15 Middleware) mit **PHP 8.5** und PostgreSQL.
 
 ## PHP State 2025/2026
 
-Dieses Projekt wurde erstellt, um den aktuellen Stand von PHP zu erkunden:
+Dieses Projekt nutzt die neuesten PHP-Features:
 
-- **PHP 8.4** (aktuell) - Mit Property Hooks, Asymmetric Visibility, Lazy Objects
-- **PHP 8.5** (November 2025) - Mit Pipe Operator (`|>`), neue URI Extension, Fatal Error Backtraces
+- **PHP 8.5** - Mit Pipe Operator (`|>`), neue URI Extension, Fatal Error Backtraces
+- **Mezzio** - Modernes PSR-15 Middleware Framework (Nachfolger von Laminas MVC)
 - **2025**: 30 Jahre PHP!
+
+### Warum Mezzio statt Laminas MVC?
+
+Laminas MVC wurde im Juni 2025 als "security-only" markiert und nach PHP 8.5 Release als "abandoned" eingestuft. Mezzio ist der offizielle Nachfolger und bietet:
+
+- PSR-15 Middleware-Architektur
+- Bessere Testbarkeit
+- Weniger Framework-Kopplung
+- Bessere Performance
 
 ## Schnellstart
 
@@ -23,7 +32,7 @@ docker-compose up -d
 # http://localhost:8080/contact
 ```
 
-Das war's! Die Datenbank wird automatisch initialisiert mit ein paar Beispielkontakten.
+Das war's! Die Datenbank wird automatisch initialisiert mit Beispielkontakten.
 
 ### Container stoppen
 
@@ -36,8 +45,8 @@ docker-compose down -v
 
 ## Funktionen
 
-- **Kontakte anzeigen** - Liste aller Kontakte mit Suchfunktion
-- **Kontakt anlegen** - Neuen Kontakt mit Name, E-Mail, Telefon und Notizen erstellen
+- **Kontakte anzeigen** - Liste aller Kontakte
+- **Kontakt anlegen** - Neuen Kontakt erstellen
 - **Kontakt bearbeiten** - Bestehende Kontaktdaten aktualisieren
 - **Kontakt löschen** - Kontakt mit Bestätigung entfernen
 
@@ -45,46 +54,49 @@ docker-compose down -v
 
 | Komponente | Technologie |
 |------------|-------------|
-| Framework | Laminas MVC |
-| PHP Version | 8.4 |
+| Framework | **Mezzio 3.x** (PSR-15) |
+| PHP Version | **8.5** |
 | Datenbank | PostgreSQL 16 |
+| Template Engine | Laminas View |
 | Container | Docker + docker-compose |
-| CSS | Bootstrap 5 |
+| CSS | Bootstrap 5 (CDN) |
 
 ## Projektstruktur
 
 ```
 ├── docker-compose.yml      # Docker-Konfiguration
-├── Dockerfile              # PHP/Apache Container
+├── Dockerfile              # PHP 8.5/Apache Container
 ├── docker/
 │   └── init.sql            # Datenbank-Initialisierung
 ├── config/
-│   ├── modules.config.php  # Module-Registrierung
+│   ├── routes.php          # Routen-Definition
 │   └── autoload/
 │       └── db.global.php   # Datenbank-Konfiguration
-└── module/
-    └── Contact/
-        ├── config/
-        │   └── module.config.php
-        ├── src/
-        │   ├── Controller/ContactController.php
-        │   ├── Form/ContactForm.php
-        │   ├── Model/Contact.php
-        │   ├── Model/ContactTable.php
-        │   └── Module.php
-        └── view/
-            └── contact/contact/
-                ├── index.phtml
-                ├── add.phtml
-                ├── edit.phtml
-                └── delete.phtml
+├── src/App/
+│   ├── ConfigProvider.php  # DI-Konfiguration
+│   ├── Handler/
+│   │   └── Contact/        # Contact Handler (CRUD)
+│   │       ├── ListHandler.php
+│   │       ├── CreateHandler.php
+│   │       ├── EditHandler.php
+│   │       └── DeleteHandler.php
+│   └── Model/
+│       ├── Contact.php     # Entity
+│       └── ContactTable.php # TableGateway
+└── templates/
+    ├── layout/default.phtml
+    └── app/contact/        # Contact Views
+        ├── list.phtml
+        ├── create.phtml
+        ├── edit.phtml
+        └── delete.phtml
 ```
 
 ## Entwicklung
 
 ### Lokale Entwicklung ohne Docker
 
-1. PHP 8.1+ und PostgreSQL installieren
+1. PHP 8.5+ und PostgreSQL installieren
 2. Datenbank erstellen:
    ```sql
    CREATE DATABASE contacts;
@@ -92,7 +104,7 @@ docker-compose down -v
    GRANT ALL PRIVILEGES ON DATABASE contacts TO laminas;
    ```
 3. Init-Script ausführen: `psql -U laminas -d contacts -f docker/init.sql`
-4. Dependencies installieren: `composer install`
+4. Dependencies installieren: `composer install --ignore-platform-reqs`
 5. Server starten: `composer serve`
 6. Öffnen: http://localhost:8080/contact
 
@@ -105,6 +117,15 @@ docker-compose down -v
 | DB_NAME | contacts | Datenbankname |
 | DB_USER | laminas | Benutzername |
 | DB_PASSWORD | laminas_secret | Passwort |
+
+## API Endpoints
+
+| Route | Methode | Handler | Beschreibung |
+|-------|---------|---------|--------------|
+| `/contact` | GET | ListHandler | Kontaktliste |
+| `/contact/create` | GET/POST | CreateHandler | Neuer Kontakt |
+| `/contact/edit/{id}` | GET/POST | EditHandler | Kontakt bearbeiten |
+| `/contact/delete/{id}` | GET/POST | DeleteHandler | Kontakt löschen |
 
 ## Lizenz
 

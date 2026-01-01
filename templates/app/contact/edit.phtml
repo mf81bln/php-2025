@@ -1,0 +1,44 @@
+<?php $this->layout('layout::default') ?>
+
+<h1>Kontakt bearbeiten</h1>
+
+<div class="row">
+    <div class="col-md-8 col-lg-6">
+        <?php if ($this->error): ?>
+            <div class="alert alert-danger"><?= $this->escapeHtml($this->error) ?></div>
+        <?php endif; ?>
+
+        <form method="post" action="/contact/edit/<?= $this->id ?>">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name *</label>
+                <input type="text" class="form-control" id="name" name="name"
+                       value="<?= $this->escapeHtml($this->data['name']) ?>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">E-Mail</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       value="<?= $this->escapeHtml($this->data['email'] ?? '') ?>"
+                       placeholder="email@beispiel.de">
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefon</label>
+                <input type="tel" class="form-control" id="phone" name="phone"
+                       value="<?= $this->escapeHtml($this->data['phone'] ?? '') ?>"
+                       placeholder="+49 123 456789">
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notizen</label>
+                <textarea class="form-control" id="notes" name="notes" rows="4"
+                          placeholder="Zusätzliche Informationen..."><?= $this->escapeHtml($this->data['notes'] ?? '') ?></textarea>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Aktualisieren</button>
+                <a href="/contact" class="btn btn-secondary">Abbrechen</a>
+            </div>
+        </form>
+    </div>
+</div>

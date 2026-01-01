@@ -11,9 +11,4 @@ return [
         'username' => getenv('DB_USER') ?: 'laminas',
         'password' => getenv('DB_PASSWORD') ?: 'laminas_secret',
     ],
-    'service_manager' => [
-        'factories' => [
-            \Laminas\Db\Adapter\AdapterInterface::class => \Laminas\Db\Adapter\AdapterServiceFactory::class,
-        ],
-    ],
 ];

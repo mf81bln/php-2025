@@ -1,13 +1,13 @@
-FROM php:8.4-apache
+FROM php:8.5-apache
 
-LABEL maintainer="getlaminas.org" \
-    org.label-schema.docker.dockerfile="/Dockerfile" \
-    org.label-schema.name="Laminas MVC Contact Database" \
-    org.label-schema.url="https://docs.getlaminas.org/mvc/"
+LABEL maintainer="Mezzio Kontakt-Datenbank" \
+    org.label-schema.name="Mezzio Contact Database" \
+    org.label-schema.description="PHP 8.5 + Mezzio + PostgreSQL Contact Database"
 
-# Update package information
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    unzip \
     zlib1g-dev \
     libzip-dev \
     libicu-dev \
@@ -26,8 +26,7 @@ RUN echo '<Directory /var/www/public>\n\
 </Directory>' >> /etc/apache2/apache2.conf
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer \
-  | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Install PHP Extensions
 RUN docker-php-ext-install zip \
@@ -36,3 +35,6 @@ RUN docker-php-ext-install zip \
     && docker-php-ext-install pdo pdo_pgsql
 
 WORKDIR /var/www
+
+# Expose port
+EXPOSE 80

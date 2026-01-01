@@ -1,15 +1,14 @@
 <?php
 
-use Laminas\Mvc\Application;
-use Laminas\Stdlib\ArrayUtils;
+declare(strict_types=1);
 
-// Retrieve configuration
-$appConfig = require __DIR__ . '/application.config.php';
-if (file_exists(__DIR__ . '/development.config.php')) {
-    /** @var array $devConfig */
-    $devConfig = require __DIR__ . '/development.config.php';
-    $appConfig = ArrayUtils::merge($appConfig, $devConfig);
-}
+use Laminas\ServiceManager\ServiceManager;
 
-return Application::init($appConfig)
-    ->getServiceManager();
+// Load configuration
+$config = require __DIR__ . '/config.php';
+
+$dependencies                       = $config['dependencies'];
+$dependencies['services']['config'] = $config;
+
+// Build container
+return new ServiceManager($dependencies);

@@ -1,8 +1,7 @@
 /.phpcs-cache
-/.phpunit.cache
 /.psalm-cache
-vendor/
-config/development.config.php
-data/cache/*
-!data/cache/.gitkeep
-phpunit.xml
+/.phpunit.cache
+/clover.xml
+/coveralls-upload.json
+/phpunit.xml
+/vendor/

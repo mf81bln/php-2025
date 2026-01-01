@@ -15,7 +15,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - laminas-network
+      - mezzio-network
 
   db:
     image: postgres:16-alpine
@@ -34,11 +34,11 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - laminas-network
+      - mezzio-network
 
 volumes:
   postgres_data:
 
 networks:
-  laminas-network:
+  mezzio-network:
     driver: bridge
