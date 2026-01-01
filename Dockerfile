@@ -34,6 +34,17 @@ RUN docker-php-ext-install zip \
     && docker-php-ext-install intl \
     && docker-php-ext-install pdo pdo_pgsql
 
+# Configure PHP error logging to container stdout/stderr
+RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/error-logging.ini \
+    && echo "display_errors = Off" >> /usr/local/etc/php/conf.d/error-logging.ini \
+    && echo "display_startup_errors = Off" >> /usr/local/etc/php/conf.d/error-logging.ini \
+    && echo "log_errors = On" >> /usr/local/etc/php/conf.d/error-logging.ini \
+    && echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/error-logging.ini
+
+# Forward Apache logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/apache2/access.log \
+    && ln -sf /dev/stderr /var/log/apache2/error.log
+
 WORKDIR /var/www
 
 # Expose port
